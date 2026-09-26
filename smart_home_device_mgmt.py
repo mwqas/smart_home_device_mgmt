@@ -90,7 +90,7 @@ def clean_response(text: str) -> str:
     """Strip thinking tags and an optional Markdown JSON fence."""
     cleaned = re.sub(r'<thinking>.*?</thinking>', '', str(text), flags=re.DOTALL)
     cleaned = cleaned.strip()
-    fenced = re.fullmatch(r'```(?:json)?\\s*([\\s\\S]*?)\\s*```', cleaned, flags=re.IGNORECASE)
+    fenced = re.fullmatch(r'```(?:json)?\s*([\s\S]*?)\s*```', cleaned, flags=re.IGNORECASE)
     return fenced.group(1).strip() if fenced else cleaned
 
 
