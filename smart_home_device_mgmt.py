@@ -87,9 +87,11 @@ CORRECTIVE_ACTIONS = {
 
 
 def clean_response(text: str) -> str:
-    """Strip Nova/Claude thinking tags from agent responses."""
+    """Strip thinking tags and an optional Markdown JSON fence."""
     cleaned = re.sub(r'<thinking>.*?</thinking>', '', str(text), flags=re.DOTALL)
-    return cleaned.strip()
+    cleaned = cleaned.strip()
+    fenced = re.fullmatch(r'```(?:json)?\\s*([\\s\\S]*?)\\s*```', cleaned, flags=re.IGNORECASE)
+    return fenced.group(1).strip() if fenced else cleaned
 
 
 # NOTE: In production, extract shared helpers like run_agent_with_retry() and
